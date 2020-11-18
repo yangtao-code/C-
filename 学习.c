@@ -1,8 +1,14 @@
 #include<stdio.h>
+
 void main()
 {
-    int a=4;
-	float b;
-	b=a;;
-	printf("b=%f\n",b);
+	int i,sum=0;
+	i=1;
+pet:  if(i<=100)
+	  {
+		  sum=sum+i;
+		  i++;
+			  goto pet;
+	  }
+	  printf("%d\n",sum);
 }
