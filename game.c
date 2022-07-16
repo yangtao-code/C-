@@ -1,117 +1,65 @@
 #define _CRT_SECURE_NO_WARNINGS 1
-#include"game.h"
+#include<stdio.h>
+#include<time.h>
+#include<stdlib.h>
 
-void InitBoard(char board[ROW][COL], int row, int col) 
+void menu()
 {
-	int i = 0;
-	int j = 0;
-	for (i = 0; i < row; i++)
-	{
-		for (j = 0; j < col; j++)
-		{
-			board[i][j] = ' ';
-		}
-	}
+	printf("***************************\n");
+	printf("****  1.paly   0.exit  ****\n");
+	printf("***************************\n");
 }
-void DisplayBoard(char board[ROW][COL], int row, int col)
+
+int game()
 {
-	int i = 0;
-	for (i = 0; i <row; i++)
+	//1。生成一个随机数
+	int r = 0;
+	r = rand() % 100 + 1;
+	//2.猜数字
+	int guess=0;
+	
+	while (1)
 	{
-		int j = 0;
-		for (j = 0; j < col; j++)
+		printf("请猜数字：");
+	    scanf("%d", &guess);
+		if (guess > r)
 		{
-			printf(" %c ", board[i][j]);
-			if (j < col - 1)
-				printf("|");
+			printf("猜大了\n");
 		}
-		printf("\n");
-		if (i < row - 1)
+		else if (guess < r)
 		{
-			for (j = 0; j < col; j++)
-			{
-				printf("---");
-				if (j < col - 1)
-					printf("|");
-			}
-			printf("\n");
-		}
-		
-	}
-}
-void PlayerMove(char board[ROW][COL], int row, int col)
-{
-	int x = 0;
-	int y = 0;
-	again:
-	printf("玩家走\n");
-	printf("请输入坐标:>");
-	scanf("%d%d", &x, &y);
-	//判断玩家坐标的合法性
-	if (x >= 1 && x <= row && y >= 1 && y <= col)
-	{
-		if (board[x - 1][y - 1] == ' ')
-		{
-			board[x - 1][y - 1] = '*';
+			printf("猜小了\n");
 		}
 		else
 		{
-			printf("该坐标被占用，请重新输入！\n");
-			goto again;
+			printf("恭喜你猜对了\n");
+			break;
 		}
 	}
-	else
-	{
-		printf("坐标非法，请重新输入！\n");
-			goto again;
-	}
 }
-void ComputerMove(char board[ROW][COL], int row, int col)
+
+int main()
 {
-	int x = 0;
-	int y = 0;
-	printf("电脑走:>\n");
-	again:
-	x = rand() % row;
-	y = rand() % col;
-	if (board[x][y] == ' ')
-		board[x][y] = 'a';
-	else
-		goto again;
-}
-int IsFull(char board[ROW][COL], int row, int col)
-{
-	int i = 0;
-	int j = 0;
-	for (i = 0; i < row; i++)
+	srand((unsigned int)time(NULL));
+	int input = 0;
+	do
 	{
-		for (j = 0; j < col; j++)
+		menu();
+		printf("请选择:>");
+		scanf("%d", &input);
+		switch (input)
 		{
-			if (board[i][j] == ' ')
-				return 0;
+		case 1:
+			game();
+			break;
+		case 0:
+			printf("退出游戏\n");
+			break;
+		default:
+			printf("选择错误\n");
+			break;
+
 		}
-	}
-	return 1;
-}
-char IsWin(char board[ROW][COL], int row, int col)
-{
-	int i = 0;
-	for (i = 0; i < row; i++)
-	{
-		if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][1] != ' ')
-			return board[i][1];
-	}
-	for (i = 0; i < col; i++)
-	{
-		if (board[0][i] == board[1][i] && board[1][i] == board[2][i] && board[1][i] != ' ')
-			return board[1][i];
-	}
-	if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[1][1] != ' ')
-		return board[1][1];
-	if (board[2][0] == board[1][1] && board[1][1] == board[0][2] && board[1][1] != ' ')
-		return board[1][1];
-	if (1 == IsFull(board, row, col))
-		return 'Q';
-	else
-		return 'C';
+	} while (input);
+	return 0;
 }
