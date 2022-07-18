@@ -1,65 +1,27 @@
-/**
- * @file 学生成绩管理系统
- * @author 阳涛 (2245377079@qq.com)
- * @brief 
- * @version 0.1
- * @date 2022-07-12
- * 
- * @copyright Copyright (c) 2022
- * 
- */
+#include "linklist.h"
 
-#include "stusys.h"
-
-int main()
+int main(int argc, char const *argv[])
 {
-    int input; //创建选择变量，从键盘输入
-    //创建学生管理系统
-    StuSys stusys;
-    //初始化学生管理系统
-    InitStuSys(&stusys);
+    Linklist list = NULL;
 
-    do
-    {
-        menu(); //菜单函数
-        printf("请选择:>");
-        scanf("%d", &input);
-        switch (input)
-        {
-        case ADD:
-            AddStuSys(&stusys);
-            break;
-        case DEL:
-            DelStuSys(&stusys);
-            break;
-        case SCORE:
-            ScoreStuSys(&stusys);
-            break;
-        case SEARCH:
-            SearchStuSys(&stusys);
-            break;
-        case MODIFY:
-            ModifyStuSys(&stusys);
-            break;
-        case SORT:
-            SortStuSys(&stusys);
-            break;
-        case SHOW:
-            ShowStuSys(&stusys);
-            break;
-        case SAVE:
-            SaveStuSys(&stusys);
-            break;
-        case EXIT:
-            SaveStuSys(&stusys);
-            DestroyStuSys(&stusys);
-            printf("已退出！\n");
-            break;
-        default:
-            printf("选择错误，请重新选择:>\n");
-            break;
-        }
-    } while (input);
+    push_back(&list, 20);
+    push_back(&list, 3);
+    push_back(&list, 14);
+    printf("size: %ld\n", list_size(list));
+    print_list(list);
 
+    push_front(&list, 10);
+    print_list(list);
+
+    // pop_back(&list);
+    // print_list(list);
+
+    // pop_front(&list);
+    // print_list(list);
+
+    sort_list(&list);
+    print_list(list);
+
+    destroy_list(list);
     return 0;
 }
