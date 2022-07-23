@@ -7,10 +7,10 @@ LinkStack *Create_Stack()
     p->rear = NULL;
 }
 
-void EnStack(LinkStack *stack, ElemType date)
+void EnStack(LinkStack *stack, ElemType *date)
 {
     LinkList1 p = (LinkList1)malloc(sizeof(Node1));
-    p->date = date;
+    strcpy(p->date, date);
     p->next = stack->front;
     if (Stack_Empty(stack))
     {
@@ -34,7 +34,7 @@ void DeStack(LinkStack *stack)
     p = NULL;
 }
 
-ElemType Get_Stack_Top(LinkStack *stack)
+ElemType* Get_Stack_Top(LinkStack *stack)
 {
     return stack->front->date;
 }
@@ -61,10 +61,9 @@ void Print_Stack(LinkStack *stack)
     LinkList1 p = stack->front;
     while (p)
     {
-        printf("%d ", p->date);
+        printf("%s\n", p->date);
         p = p->next;
     }
-    printf("\n");
 }
 
 void Destroy_Stack(LinkStack *stack)

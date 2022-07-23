@@ -4,12 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
-typedef int ElemType;
+typedef char ElemType;
 
 typedef struct Node1
 {
-    ElemType date;
+    ElemType date[32];
     struct Node1 *next;
 } Node1, *LinkList1;
 
@@ -20,9 +21,9 @@ typedef struct LinkStack
 } LinkStack;
 
 LinkStack* Create_Stack();
-void EnStack(LinkStack *stack, ElemType date);
+void EnStack(LinkStack *stack, ElemType* date);
 void DeStack(LinkStack *stack);
-ElemType Get_Stack_Top(LinkStack *stack);
+ElemType* Get_Stack_Top(LinkStack *stack);
 int Stack_Size(LinkStack *stack);
 void Print_Stack(LinkStack *stack);
 void Destroy_Stack(LinkStack *stack);
