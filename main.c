@@ -1,19 +1,22 @@
-#include "calc.h"
+#include "linkqueue.h"
 
 int main(int argc, char const *argv[])
 {
-    LinkStack *stack = Create_Stack();
+    LinkQueue *queue = Cread_Queue();
 
-    LinkQueue *queue = Create_Queue();
+    EnQueue(queue, 10);
+    EnQueue(queue, 20);
+    EnQueue(queue, 30);
+    EnQueue(queue, 40);
+    Print_Queue(queue);
+    printf("size: %d\n", Queue_Size(queue));
 
-    char expr[100];
-    printf("请输入表达式：");
-    scanf("%s", expr);
+    DeQueue(queue);
+    Print_Queue(queue);
+    printf("size: %d\n", Queue_Size(queue));
 
-    mid_to_post(expr, stack, queue);
-
-    int ret = calc_post(stack, queue);
-
-    printf("%s = %d\n", expr, ret);
+    Destroy_Queue(queue);
+    free(queue);
+    queue = NULL;
     return 0;
 }

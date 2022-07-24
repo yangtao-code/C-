@@ -1,6 +1,6 @@
 #include "linkqueue.h"
 
-LinkQueue *Create_Queue()
+LinkQueue *Cread_Queue()
 {
     LinkQueue *queue = (LinkQueue *)malloc(sizeof(LinkQueue));
     queue->front = NULL;
@@ -8,10 +8,10 @@ LinkQueue *Create_Queue()
     return queue;
 }
 
-void EnQueue(LinkQueue *queue, ElemType *date)
+void EnQueue(LinkQueue *queue, ElemType date)
 {
     LinkList p = (LinkList)malloc(sizeof(Node));
-    strcpy(p->date, date);
+    p->date = date;
     p->next = NULL;
     if (Queue_Empty(queue))
     {
@@ -56,14 +56,10 @@ void Print_Queue(LinkQueue *queue)
     LinkList p = queue->front;
     while (p)
     {
-        printf("%s\n", p->date);
+        printf("%d ", p->date);
         p = p->next;
     }
-}
-
-ElemType* Get_Queue_Top(LinkQueue *queue)
-{
-    return queue->front->date;
+    printf("\n");
 }
 
 int Queue_Size(LinkQueue *queue)

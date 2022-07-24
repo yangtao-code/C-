@@ -4,13 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
 
-typedef char ElemType;
+typedef int ElemType;
 
 typedef struct Node
 {
-    ElemType date[32];
+    ElemType date;
     struct Node *next;
 } Node, *LinkList;
 
@@ -21,12 +20,11 @@ typedef struct LinkQueue
 } LinkQueue;
 
 //创建一个链式队列
-LinkQueue *Create_Queue();
+LinkQueue *Cread_Queue();
 //增加一个队列元素
-void EnQueue(LinkQueue *queue, ElemType *date);
+void EnQueue(LinkQueue *queue, ElemType date);
 //删除队列一个元素
 void DeQueue(LinkQueue *queue);
-ElemType* Get_Queue_Top(LinkQueue *queue);
 //判断队列是否为空
 bool Queue_Empty(LinkQueue *queue);
 //销毁队列
