@@ -1,21 +1,23 @@
-#include "linkqueue.h"
+#include "seqqueue.h"
 
 int main(int argc, char const *argv[])
 {
-    LinkQueue *queue = Cread_Queue();
+    SeqQueue *queue = cread_queue();
 
-    EnQueue(queue, 10);
-    EnQueue(queue, 20);
-    EnQueue(queue, 30);
-    EnQueue(queue, 40);
-    Print_Queue(queue);
-    printf("size: %d\n", Queue_Size(queue));
+    enqueue(queue, 10);
+    enqueue(queue, 20);
+    enqueue(queue, 30);
+    enqueue(queue, 40);
+    enqueue(queue, 50);
+    enqueue(queue, 60);
+    while (queue->front != queue->rear)
+    {
+        printf("%d ", queue->date[queue->front]);
+        dequeue(queue);
+    }
 
-    DeQueue(queue);
-    Print_Queue(queue);
-    printf("size: %d\n", Queue_Size(queue));
-
-    Destroy_Queue(queue);
+    free(queue->date);
+    queue->date = NULL;
     free(queue);
     queue = NULL;
     return 0;
