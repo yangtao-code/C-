@@ -1,24 +1,28 @@
-#include "seqqueue.h"
+#include "game.h"
+#include <stdio.h>
 
 int main(int argc, char const *argv[])
 {
-    SeqQueue *queue = cread_queue();
-
-    enqueue(queue, 10);
-    enqueue(queue, 20);
-    enqueue(queue, 30);
-    enqueue(queue, 40);
-    enqueue(queue, 50);
-    enqueue(queue, 60);
-    while (queue->front != queue->rear)
+    int input;
+    do
     {
-        printf("%d ", queue->date[queue->front]);
-        dequeue(queue);
-    }
-
-    free(queue->date);
-    queue->date = NULL;
-    free(queue);
-    queue = NULL;
+        //打印菜单
+        menu();
+        printf("请选择：");
+        scanf("%d", &input);
+        getchar();
+        switch (input)
+        {
+        case 1:
+            playgame();
+            break;
+        case 0:
+            printf("退出成功，欢迎下次再玩！\n");
+            break;
+        default:
+            printf("选择错误，请重新选择！\n");
+            break;
+        }
+    } while (input);
     return 0;
 }

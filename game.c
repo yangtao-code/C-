@@ -1,65 +1,176 @@
-#define _CRT_SECURE_NO_WARNINGS 1
-#include<stdio.h>
-#include<time.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "game.h"
+#include "move.h"
+
+void playgame()
+{
+    srand((unsigned int)time(NULL));
+    int board[ROW][COL] = {0}; //åˆ›å»ºä¸€ä¸ªäºŒç»´æ•°æ®å‚¨å­˜2048æ¸¸æˆæ•°æ®
+    int score = 0;             //  æ¸¸æˆåˆ†æ•°
+    //åˆå§‹åŒ–æ¸¸æˆæ•°æ®
+    InitGame(board);
+    Playboard(board, &score);
+    //  Wä¸ºä¸Š   Sä¸ºä¸‹   Aä¸ºå·¦   Dä¸ºå³
+    char input = 0;
+    printf("è¯·é€‰æ‹©ï¼š");
+    do
+    {
+        scanf("%c", &input);
+        switch (input)
+        {
+        case UP:
+            Move_up(board, &score);
+            break;
+        case DOWN:
+            Move_down(board, &score);
+            break;
+        case LEFT:
+            Move_left(board, &score);
+            break;
+        case RIGHT:
+            Move_right(board, &score);
+            break;
+        case EXIT:
+            return;
+        default:
+            break;
+        }
+        if (If_game_over(board) == 1)
+            break;
+    } while (1);
+}
+
+int If_game_over(int (*board)[ROW])
+{
+    if (If_Win(board) == 1)
+    {
+        printf("æ­å–œæ‚¨èµ¢äº†ï¼\n");
+        return 1;
+    }
+    if (If_Lose(board) == -1)
+    {
+        printf("å¾ˆé—æ†¾ï¼Œæ‚¨è¾“äº†ï¼\n");
+        return 1;
+    }
+    return 0;
+}
+
+int If_Lose(int (*board)[ROW])
+{
+    if (If_Full(board) && If_Move(board))
+    {
+        return -1;
+    }
+    return 0;
+}
+
+int If_Move(int (*board)[ROW])
+{
+    for (int i = 1; i < ROW - 1; i++)
+    {
+        if (board[i][0] == board[i - 1][0] || board[i][0] == board[i + 1][0])
+            return 0;
+        if (board[i][COL - 1] == board[i - 1][COL - 1] || board[i][COL - 1] == board[i + 1][COL - 1])
+            return 0;
+    }
+    for (int j = 1; j < COL - 1; j++)
+    {
+        if (board[0][j] == board[0][j - 1] || board[0][j] == board[0][j + 1])
+            return 0;
+        if (board[ROW - 1][j] == board[ROW - 1][j - 1] || board[ROW - 1][j] == board[ROW - 1][j + 1])
+            return 0;
+    }
+    for (int i = 1; i < ROW - 1; i++)
+    {
+        for (int j = 1; j < COL - 1; j++)
+        {
+            if (board[i][j] == board[i - 1][j])
+                return 0;
+            if (board[i][j] == board[i + 1][j])
+                return 0;
+            if (board[i][j] == board[i][j - 1])
+                return 0;
+            if (board[i][j] == board[i][j + 1])
+                return 0;
+        }
+    }
+    return 1;
+}
+
+int If_Full(int (*board)[ROW])
+{
+    for (int i = 0; i < ROW; i++)
+    {
+        for (int j = 0; j < COL; j++)
+        {
+            if (board[i][j] == 0)
+                return 0;
+        }
+    }
+    return 1;
+}
+
+int If_Win(int (*board)[ROW])
+{
+    for (int i = 0; i < ROW; i++)
+    {
+        for (int j = 0; j < COL; j++)
+        {
+            if (board[i][j] == WIN)
+                return 1;
+        }
+    }
+    return 0;
+}
+
+void Playboard(int (*board)[ROW], int *score)
+{
+    printf("****  2048å°æ¸¸æˆ ****\n");
+    printf("        å½“å‰åˆ†æ•°ï¼š%d\n", *score);
+    printf("_____________________\n");
+    for (int i = 0; i < ROW; i++)
+    {
+        printf("|    |    |    |    |\n|");
+        for (int j = 0; j < COL; j++)
+        {
+
+            printf("%-4d|", board[i][j]);
+        }
+        printf("\n");
+        printf("|___________________|\n");
+    }
+}
+
+void InitGame(int (*board)[ROW])
+{
+    Get_randnum(board);
+    Get_randnum(board);
+}
+
+void Get_randnum(int (*board)[ROW])
+{
+    if (If_Full(board) == 1)
+        return;
+    int rand_num[3] = {2, 2, 4};
+    int row, col, k;
+    while (1)
+    {
+        row = rand() % ROW;
+        col = rand() % COL;
+        if (board[row][col] == 0)
+        {
+            k = rand() % 3;
+            board[row][col] = rand_num[k];
+            break;
+        }
+    }
+}
 
 void menu()
 {
-	printf("***************************\n");
-	printf("****  1.paly   0.exit  ****\n");
-	printf("***************************\n");
-}
-
-int game()
-{
-	//1¡£Éú³ÉÒ»¸öËæ»úÊı
-	int r = 0;
-	r = rand() % 100 + 1;
-	//2.²ÂÊı×Ö
-	int guess=0;
-	
-	while (1)
-	{
-		printf("Çë²ÂÊı×Ö£º");
-	    scanf("%d", &guess);
-		if (guess > r)
-		{
-			printf("²Â´óÁË\n");
-		}
-		else if (guess < r)
-		{
-			printf("²ÂĞ¡ÁË\n");
-		}
-		else
-		{
-			printf("¹§Ï²Äã²Â¶ÔÁË\n");
-			break;
-		}
-	}
-}
-
-int main()
-{
-	srand((unsigned int)time(NULL));
-	int input = 0;
-	do
-	{
-		menu();
-		printf("ÇëÑ¡Ôñ:>");
-		scanf("%d", &input);
-		switch (input)
-		{
-		case 1:
-			game();
-			break;
-		case 0:
-			printf("ÍË³öÓÎÏ·\n");
-			break;
-		default:
-			printf("Ñ¡Ôñ´íÎó\n");
-			break;
-
-		}
-	} while (input);
-	return 0;
+    printf("***************************\n");
+    printf("*** 1.playgame   0.exit ***\n");
+    printf("***************************\n");
 }
