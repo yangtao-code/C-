@@ -51,16 +51,16 @@ void Destroy_Queue(LinkQueue *queue)
     }
 }
 
-void Print_Queue(LinkQueue *queue)
-{
-    LinkList p = queue->front;
-    while (p)
-    {
-        printf("%d ", p->date);
-        p = p->next;
-    }
-    printf("\n");
-}
+// void Print_Queue(LinkQueue *queue)
+// {
+//     LinkList p = queue->front;
+//     while (p)
+//     {
+//         printf("%d ", p->date);
+//         p = p->next;
+//     }
+//     printf("\n");
+// }
 
 int Queue_Size(LinkQueue *queue)
 {

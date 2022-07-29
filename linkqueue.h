@@ -4,8 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "btree.h"
 
-typedef int ElemType;
+typedef BNode* ElemType;
 
 typedef struct Node
 {
@@ -30,7 +31,8 @@ bool Queue_Empty(LinkQueue *queue);
 //销毁队列
 void Destroy_Queue(LinkQueue *queue);
 //打印队列
-void Print_Queue(LinkQueue *queue);
+//void Print_Queue(LinkQueue *queue);
 //求队列的元素个数
 int Queue_Size(LinkQueue *queue);
+
 #endif
