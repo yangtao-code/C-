@@ -1,62 +1,107 @@
 #include "btree.h"
-#include "linkqueue.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-BNode *create_btree()
+BNode *create_btree(int *a, int sz)
 {
     BNode *root = NULL;
-    ElemType1 tmp;
-    scanf("%c", &tmp);
-    if (tmp != '#')
+    if (sz == 0)
+        return root;
+    for (int i = 0; i < sz; i++)
     {
-        root = (BNode *)malloc(sizeof(BNode));
-        root->date = tmp;
-        root->lchild = create_btree();
-        root->rchild = create_btree();
+        root = insert(root, a[i]);
     }
     return root;
 }
 
-void pre_order(BNode *root)
+BNode *insert(BNode *root, ElemType date)
 {
     if (root == NULL)
-        return;
-    printf("%c ", root->date);
-    pre_order(root->lchild);
-    pre_order(root->rchild);
+    {
+        root = (BNode *)malloc(sizeof(BNode));
+        root->date = date;
+        root->lchild = NULL;
+        root->rchild = NULL;
+        return root;
+    }
+    if (date <= root->date)
+    {
+        root->lchild = insert(root->lchild, date);
+    }
+    else
+    {
+        root->rchild = insert(root->rchild, date);
+    }
+    return root;
 }
 
 void mid_order(BNode *root)
 {
     if (root == NULL)
         return;
+
     mid_order(root->lchild);
-    printf("%c ", root->date);
+    printf("%d ", root->date);
     mid_order(root->rchild);
 }
 
-void post_order(BNode *root)
+BNode *search(BNode *root, ElemType value)
 {
-    if (root == NULL)
-        return;
-    post_order(root->lchild);
-    post_order(root->rchild);
-    printf("%c ", root->date);
+    if (root == NULL || root->date == value)
+        return root;
+    if (value < root->date)
+        return search(root->lchild, value);
+    return search(root->rchild, value);
 }
 
-void level_order(BNode *root)
+BNode *deleteNode(BNode *root, ElemType value)
 {
-    LinkQueue *queue = Cread_Queue();
-    EnQueue(queue, root);
-    while (Queue_Empty(queue) != 1)
+    //要删除的数不存在，
+    if (root == NULL)
+        return root;
+    //如果要删除的数小于root的值，说明在左子树
+    if (value < root->date)
     {
-        ElemType tmp = queue->front->date;
-        DeQueue(queue);
-        printf("%c ", tmp->date);
-        if (tmp->lchild != NULL)
-            EnQueue(queue, tmp->lchild);
-        if (tmp->rchild != NULL)
-            EnQueue(queue, tmp->rchild);
+        root->lchild = deleteNode(root->lchild, value);
+        return root;
     }
+    //如果要删除的数大于root的值，说明在右子树
+    else if (value > root->date)
+    {
+        root->rchild = deleteNode(root->rchild, value);
+        return root;
+    }
+    else
+    {
+        if (root->lchild == NULL)
+        {
+            BNode *tmp = root;
+            root = root->rchild;
+            free(tmp);
+            return root;
+        }
+        else if (root->rchild == NULL)
+        {
+            BNode *tmp = root;
+            root = root->lchild;
+            free(tmp);
+            return root;
+        }
+        else
+        {
+            ElemType tmp = minvalueNode(root->lchild);
+            root->date = tmp;
+            root->lchild = deleteNode(root->lchild, tmp);
+            return root;
+        }
+    }
+}
+
+ElemType minvalueNode(BNode *root)
+{
+    while (root->rchild != NULL)
+    {
+        root = root->rchild;
+    }
+    return root->date;
 }
