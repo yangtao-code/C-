@@ -1,78 +1,168 @@
-#define _CRT_SECURE_NO_WARNINGS 1
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 
-#include"game.h"
-void menu()
+/**
+ * @brief åˆ¤æ–­æ˜¯å¦ä¸ºè´¨æ•°
+ * 
+ * @param a 
+ * @return true è¿”å›trueä¸ºæ˜¯è´¨æ•°
+ * @return false è¿”å›falseä¸æ˜¯è´¨æ•°
+ */
+bool is_prier(int a);
+
+/**
+ * @brief å»é™¤å­—ç¬¦ä¸²ä¸­çš„ç©ºæ ¼
+ * 
+ * @param str 
+ */
+void del_space_char(char *str);
+
+void the_most_buygoods();
+
+int main(int argc, char const *argv[])
 {
-	printf("***************************\n");
-	printf("****    Èı×ÓÆåÓÎÏ·     ****\n");
-	printf("****  1.play   0.exit  ****\n");
-	printf("***************************\n");
-}
-void game()
-{
-	char ret = '0';
-	//Êı×é´æ·ÅÆåÅÌĞÅÏ¢
-	char board[ROW][COL] = { 0 };
-	//³õÊ¼»¯ÆåÅÌ
-	InitBoard(board, ROW, COL);
-	//´òÓ¡ÆåÅÌ
-	DisplayBoard(board, ROW, COL);
-	//ÏÂÆå
-	while (1)
-	{
-		//Íæ¼ÒÏÂÆå
-		PlayerMove(board, ROW, COL);
-		DisplayBoard(board, ROW, COL);
-		//ÅĞ¶ÏÍæ¼ÒÊÇ·ñÓ®
-		ret = IsWin(board,ROW,COL);
-		if (ret != 'C')
-		{
-			break;
-		}
-		//µçÄÔÏÂÆå
-		ComputerMove(board, ROW, COL);
-		DisplayBoard(board, ROW, COL);
-		//ÅĞ¶ÏµçÄÔÊÇ·ñÓ®
-		ret = IsWin(board, ROW, COL);
-		if (ret != 'C')
-		{
-			break;
-		}
-	}
-	if (ret == '*')
-		printf("¹§Ï²ÄãÓ®ÁË£¡\n");
-	else if (ret == 'a')
-		printf("ÕæÒÅº¶£¬ÄãÊäÁË£¡\n");
-	else
-		printf("ºÍ¾Ö£¡\n");
+    the_most_buygoods();
+    return 0;
 }
 
-void test()
+void the_most_buygoods()
 {
-	int input = 0;
-	srand((unsigned int)time(NULL));
-	do
-	{
-		menu();
-		printf("ÇëÑ¡Ôñ:>");
-		scanf("%d", &input);
-		switch(input)
-		{
-		case 1:
-			game();
-			break;
-		case 0:
-			printf("ÍË³öÓÎÏ·\n");
-			break;
-		default:
-			printf("Ñ¡Ôñ´íÎó£¬ÇëÖØĞÂÑ¡Ôñ!\n");
-			break;
-		}
-	} while (input);
-	
+    int goods_pride[5] = {13, 15, 12, 18, 10};
+    int money = 50; //è‡ªå·±æœ‰å¤šå°‘é’±
+    int goods_num[5];   //è´­ä¹°å•†å“çš„æ•°é‡
+    int k;
+    int arr[32];    //
+    for (k = 0; k < 32; k++)
+    {
+        int sum = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            goods_num[i] = !!(k & (1 << i));
+            sum = sum + goods_num[i] * goods_pride[i];
+        }
+        if (sum < money)
+            arr[k] = money - sum;
+        else
+            arr[k] = sum - money;
+    }
+    int n = 0;
+    for (k = 0; k < 32; k++)
+    {
+        if (arr[n] > arr[k])
+            n = k;
+    }
+    int sum = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        int a = !!(n & (1 << i));
+        goods_num[i] = a;
+        sum = sum + goods_pride[i] * a;
+    }
+    printf("æœ€ä¼˜è§£ä¸ºï¼š\n");
+    for(int i=0;i<5;i++)
+    {
+        printf("%c: %d\n",'A'+i,goods_num[i]);
+    }
+    printf("%d\n", sum);
 }
-int main()
+
+// int main()
+// {
+//     char str[256];
+//     int i, j;
+//     gets(str);
+//     for (i = 0; str[i] != '\0'; i++)
+//     {
+//         if (i == 0)
+//             printf("%c", str[i]);
+//         else
+//         {
+//             for (j = 0; j < i; j++)
+//             {
+//                 if (str[i] == str[j])
+//                     break;
+//             }
+//             if (i == j)
+//                 printf("%c", str[i]);
+//         }
+//     }
+//     printf("\n");
+//     return 0;
+// }
+
+// int main(int argc, char const *argv[])
+// {
+//     char str[256];
+//     printf("è¯·è¾“å…¥ä¸€æ®µå­—ç¬¦ä¸²ï¼š");
+//     gets(str);
+
+//     del_space_char(str);
+//     printf("%s\n", str);
+
+//     return 0;
+// }
+
+void del_space_char(char *str)
 {
-	test();
-	return 0;
+    char tmp[100];
+    int i = 0;
+    int k = 0;
+    while (str[i] != '\0')
+    {
+        if (str[i] == ' ')
+            ;
+        else
+        {
+            tmp[k] = str[i];
+            k++;
+        }
+        i++;
+    }
+    strcpy(str, tmp);
+}
+
+// int main(int argc, char const *argv[])
+// {
+//     int a;
+//     printf("è¯·è¾“å…¥ä¸€ä¸ªæ­£æ•°:");
+//     scanf("%d", &a);
+
+//     //aæ˜¯è´¨æ•°ï¼Œç›´æ¥è¾“å‡ºï¼Œä¸æ˜¯æ‰§è¡Œelse
+//     if (is_prier(a))
+//     {
+//         printf("%d\n", a);
+//     }
+//     else
+//     {
+//         for (int i = a - 1, j = a + 1; i > 2; i--, j++)
+//         {
+//             if (is_prier(i) && is_prier(j))
+//             {
+//                 printf("%d,%d\n", i, j);
+//                 break;
+//             }
+//             else if (is_prier(i))
+//             {
+//                 printf("%d\n", i);
+//                 break;
+//             }
+//             else if (is_prier(j))
+//             {
+//                 printf("%d\n", j);
+//                 break;
+//             }
+//         }
+//     }
+//     return 0;
+// }
+
+bool is_prier(int a)
+{
+    for (int i = 2; i <= a / 2; i++)
+    {
+        if (a % i == 0)
+            return false;
+    }
+    return true;
 }
