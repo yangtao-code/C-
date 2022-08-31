@@ -1,11 +1,12 @@
-#include <stdio.h>
-#include "graph.h"
+#include "reg52.h"
 
-int main(int argc, char const *argv[])
+sbit led = P2 ^ 1;
+
+void main()
 {
-    Graph *g = create_Graph();
-    PrintGraph(g);
-    DFSTraverse(g);
-    DFSTraverse(g);
-    return 0;
+    while (1)
+    {
+        led = 0;
+		sleep(1000);
+    }
 }
