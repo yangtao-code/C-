@@ -1,0 +1,80 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              10/03/2022 22:40:16 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: E:\professional software\Keil\Keil51\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEX
+                    -TEND TABS(2)
+
+line level    source
+
+   1          #include "reg52.h"
+   2          
+   3          #define led P2
+   4          
+   5          typedef unsigned char u8;
+   6          typedef unsigned int u16;
+   7          
+   8          void delay(u16 i)
+   9          {
+  10   1        int n = 0;
+  11   1        while (i--)
+  12   1        {
+  13   2          for (n = 0; n <= 124; n++)
+  14   2            ;
+  15   2        }
+  16   1      }
+  17          
+  18          void main()
+  19          {
+  20   1        u16 i;
+  21   1        int k = 0;
+  22   1        int flag = 0;
+  23   1        while (1)
+  24   1        {
+  25   2          if (flag == 0)
+  26   2          {
+  27   3            k++;
+  28   3            for (i = 0; i <= 7; i++)
+  29   3            {
+  30   4              led = ~(1 << i);
+  31   4              delay(200);
+  32   4            }
+  33   3            if (k == 4)
+  34   3            {
+  35   4              k = 0;
+  36   4              flag = 1;
+  37   4            }
+  38   3          }
+  39   2          else
+  40   2          {
+  41   3            k++;
+  42   3            for (i = 0; i <= 7; i++)
+  43   3            {
+  44   4              led = ~(0x80 >> i);
+  45   4              delay(200);
+  46   4            }
+  47   3            if (k == 4)
+  48   3            {
+  49   4              k = 0;
+  50   4              flag = 0;
+  51   4            }
+  52   3          }
+  53   2        }
+  54   1      }
+C51 COMPILER V9.57.0.0   MAIN                                                              10/03/2022 22:40:16 PAGE 2   
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    168    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
