@@ -1,0 +1,13 @@
+SYNOPSIS
+		   #include <sys/types.h>
+		   #include <unistd.h>
+				
+		   off_t lseek(int fd, off_t offset, int whence);
+				fd: 文件描述符。
+				offset: 偏移量，具体的新偏移量的位置，需要结合
+					第三个参数。
+				whence: 定位方式，有如下三种:
+					 SEEK_SET: 基于文件开头定位
+						新光标位置=文件开头 + offset (>=0)
+					 SEEK_CUR: current,基于当前光标定位
+						新光标位置=当前光标位置+ offset(可正可负)
