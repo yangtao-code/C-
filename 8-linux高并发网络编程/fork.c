@@ -19,6 +19,7 @@ int main(int argc, char const *argv[])
         printf("组进程：%d\n\n",getpgid(getpid()));
         exit(0);
     }
+		
     else
     {
         wait(NULL);
